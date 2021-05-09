@@ -1,21 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
-import Record from '../views/Record'
 
 Vue.use(VueRouter)
 
 const routes = [{
-        path: '/',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path: '/record',
-        name: 'record',
-        component: Record
-    },
-]
+    path: '/',
+    name: 'Home',
+    component: Home
+}]
 
 const router = new VueRouter({
     mode: 'history',

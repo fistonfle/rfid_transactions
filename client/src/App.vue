@@ -19,16 +19,19 @@ export default {
 thead, tbody, tfoot, tr, td, th {
   border: none  !important; 
 }
-
  #app .nav-link {
-  color: rgb(204, 211, 243);
+  color: #000;
 font-weight: 500;
 }
 #app .nav-pills .nav-link.active{
   color: rgb(255, 255, 255);
   
 }
+
+td:last-child {
+  display: none;
+}
 .card-header:first-child {
-background: blue;
+background: #ccd3f3;
 }
 </style>

@@ -1,24 +1,22 @@
 <template>
-  <div class="home">
-    <Header/>
+  <div>
+  <Header/>
+  <Form/>
   </div>
 </template>
 
 <script>
 import Header from '../components/Header'
-
+import Form from '../components/Form'
 export default {
-  name: 'Home',
-  components: {
-    Header
-  }
+name:"record",
+components:{
+  Header,
+  Form
+}
 }
 </script>
-<style scoped>
-.home {
-  height: 100vh;
-  background: url('../assets/rfid-card-125khz-thickbox_default-12x.jpg');
-  background-size: cover;
-  
-}
+
+<style>
+
 </style>

@@ -9,12 +9,17 @@
                             <Table :content="madeTransactions"/>
 
         </b-tab>
+      <b-tab title="All Cards">
+        <b-card-text>
+                <Table :content="cards"/>
+        </b-card-text>
+        </b-tab>
       <b-tab title="New Transaction"><b-card-text><h4>Record Transaction</h4></b-card-text>
           <b-form @submit="sendTransaction" >
     <b-form-input
       class="mb-2 mr-sm-2 mb-sm-0"
       v-model="trans.card_id"
-      placeholder="Enter card Id"
+      placeholder="Enter uuid"
     ></b-form-input>
         <b-form-input
       class="mb-2 mr-sm-2 mb-sm-0"
@@ -33,47 +38,6 @@
     </div>
     </b-form>
       </b-tab>
-
-      <b-tab title="My Transactions">
-        <b-card-text>
-        </b-card-text>
-    <b-form >
-    <b-form-input
-      class="mb-2 mr-sm-2 mb-sm-0"
-      v-model="cardToCheck"
-      placeholder="Enter uuid"
-    ></b-form-input>
-    </b-form>
-                    <Table :content="cardTransactions"/>
-
-        </b-tab>
-      <b-tab title="All Cards">
-        <b-card-text>
-                <Table :content="cards"/>
-        </b-card-text>
-        </b-tab>
-      <b-tab title="Check Card">
-        <b-card-text>Check Card</b-card-text>
-                  <b-form >
-    <b-form-input
-      class="mb-2 mr-sm-2 mb-sm-0"
-      v-model="cardToCheck"
-      placeholder="Enter uuid"
-    ></b-form-input>
-    </b-form>
-      <div v-for="(card,i) in cardExist" :key="i">
-      <div>
-      UUID : {{card.uuid}}
-      </div>
-      <div>
-              Owner : {{card.Owner}}
-      </div>
-      <div>
-              Current_balance : {{ card.current_balance}}
-      </div>
-      </div>
-      </b-tab>
-
       <b-tab title="New Card" ><b-card-text>
     <b-form @submit="sendCard" >
     <b-form-input
@@ -133,20 +97,9 @@ components:{
 },
 created(){
 this.fetchCards()
-this.checkCard()
-this.fetchCards()
 this.fetchTransactions()
-this.getRFIDTransactions()
-this.testFunction()
 },
 methods:{
-    testFunction: function () {
-      var v = this;
-      setInterval(function () {
-        v.message = new Date().toLocaleTimeString();
-    }, 2000);
-   },
-
    fetchCards:function(){
            var v = this;
       setInterval(function () {
@@ -156,19 +109,7 @@ methods:{
         .catch(error => {
         v.errorMessage = error.message;
         console.error("There was an error!", error);
-    });    }, 1);
-},
-   checkCard:function(){
-     var v = this
-setInterval(function(){
-        axios
-        .get('http://localhost:6600/api/cards/'+this.cardToCheck)
-        .then(response => (v.cardExist = response.data.card))
-        .catch(error => {
-        v.errorMessage = error.message;
-        console.error("There was an error!", error);
-    });
-},1)
+    });    }, 1000);
 },
    fetchTransactions:function(){
   var v = this
@@ -180,23 +121,17 @@ setInterval(function(){
         v.errorMessage = error.message;
         console.error("There was an error!", error);
     });
-},1)
-},
-   getRFIDTransactions(){
-
-      axios
-        .get('http://localhost:6600/api/transactions/'+this.cardToCheck)
-        .then(response => (this.cardTransactions = response.data))
-        .catch(error => {
-        this.errorMessage = error.message;
-        console.error("There was an error!", error);
-    });
+},1000)
 },
   sendCard(event){
       event.preventDefault()
        axios
         .post('http://localhost:6600/api/cards',this.RFID)
-        .then(response => (console.log(response)))
+        .then((alert("card added succesfully")),
+        this.RFID.uuid ="",
+        this.RFID.Owner = "",
+        this.RFID.current_balance = 0
+        )
         .catch(error => {
         this.errorMessage = error.message;
         console.error("There was an error!", error);
@@ -206,7 +141,11 @@ setInterval(function(){
       event.preventDefault()
        axios
         .post('http://localhost:6600/api/transactions',this.trans)
-        .then(response => (console.log(response.data)))
+        .then((alert("Transaction  added succesfully")),
+        this.trans.card_id = "",
+        this.trans.transaction_fare = 0,
+        this.trans.new_balance = 0,
+        )
         .catch(error => {
         this.errorMessage = error.message;
         console.error("There was an error!", error);
